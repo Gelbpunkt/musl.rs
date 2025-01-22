@@ -1,0 +1,29 @@
+body {
+    font-family: monospace;
+    font-size: 16px;
+    max-width: 80em;
+}
+
+table {
+    background-color: black;
+}
+
+thead {
+    filter: invert();
+}
+
+tr {
+    background-color: white;
+}
+
+td {
+    padding: 3px;
+}
+
+ul {
+    margin-top: 5px;
+}
+
+.scroll-x {
+    overflow-x: scroll;
+}

@@ -1,0 +1,26 @@
+From 7c7d4b7e744744216e447733770523f5f346e745 Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Sat, 18 Jan 2025 00:55:06 +0100
+Subject: [PATCH 14/17] loongarch64-riscv64-f16
+
+source: alpine
+---
+ vendor/compiler_builtins-0.1.140/configure.rs | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/vendor/compiler_builtins-0.1.140/configure.rs b/vendor/compiler_builtins-0.1.140/configure.rs
+index e20c717ec7..9f6649d130 100644
+--- a/vendor/compiler_builtins-0.1.140/configure.rs
++++ b/vendor/compiler_builtins-0.1.140/configure.rs
+@@ -74,6 +74,8 @@ pub fn configure_f16_f128(target: &Target) {
+         "powerpc" | "powerpc64" => false,
+         "sparc" | "sparc64" => false,
+         "wasm32" | "wasm64" => false,
++        "loongarch64" => false,
++         "riscv64" | "riscv64gc" => false,
+         // Most everything else works as of LLVM 19
+         _ => true,
+     };
+-- 
+2.48.0
+

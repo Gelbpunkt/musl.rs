@@ -1,0 +1,291 @@
+From 34c33ed4e78050384a0d46a977f00ec490949a89 Mon Sep 17 00:00:00 2001
+From: q66 <q66@chimera-linux.org>
+Date: Thu, 4 Jan 2024 14:53:26 +0100
+Subject: [PATCH 01/17] always dynamic musl + static pie
+
+---
+ compiler/rustc_target/src/spec/base/linux_musl.rs  | 14 ++++++++++----
+ .../src/spec/targets/aarch64_unknown_linux_musl.rs |  3 ---
+ .../src/spec/targets/arm_unknown_linux_musleabi.rs |  2 --
+ .../spec/targets/arm_unknown_linux_musleabihf.rs   |  2 --
+ .../spec/targets/armv5te_unknown_linux_musleabi.rs |  2 --
+ .../spec/targets/armv7_unknown_linux_musleabi.rs   |  2 --
+ .../spec/targets/armv7_unknown_linux_musleabihf.rs |  2 --
+ .../src/spec/targets/i586_unknown_linux_musl.rs    |  2 --
+ .../src/spec/targets/i686_unknown_linux_musl.rs    |  2 --
+ .../spec/targets/mips64_unknown_linux_muslabi64.rs |  2 --
+ .../targets/mips64el_unknown_linux_muslabi64.rs    |  2 --
+ .../spec/targets/powerpc64_unknown_linux_musl.rs   |  2 --
+ .../spec/targets/powerpc64le_unknown_linux_musl.rs |  2 --
+ .../src/spec/targets/powerpc_unknown_linux_musl.rs |  2 --
+ .../spec/targets/powerpc_unknown_linux_muslspe.rs  |  2 --
+ .../spec/targets/riscv32gc_unknown_linux_musl.rs   |  2 --
+ .../src/spec/targets/s390x_unknown_linux_musl.rs   |  2 --
+ .../thumbv7neon_unknown_linux_musleabihf.rs        |  2 --
+ .../src/spec/targets/x86_64_unknown_linux_musl.rs  |  2 --
+ 19 files changed, 10 insertions(+), 41 deletions(-)
+
+diff --git a/compiler/rustc_target/src/spec/base/linux_musl.rs b/compiler/rustc_target/src/spec/base/linux_musl.rs
+index 1a854fe36..dc7ea9e03 100644
+--- a/compiler/rustc_target/src/spec/base/linux_musl.rs
++++ b/compiler/rustc_target/src/spec/base/linux_musl.rs
+@@ -1,12 +1,18 @@
+-use crate::spec::{LinkSelfContainedDefault, TargetOptions, base, crt_objects};
++use crate::spec::{TargetOptions, base};
+ 
+ pub(crate) fn opts() -> TargetOptions {
+     let mut base = base::linux::opts();
+ 
+     base.env = "musl".into();
+-    base.pre_link_objects_self_contained = crt_objects::pre_musl_self_contained();
+-    base.post_link_objects_self_contained = crt_objects::post_musl_self_contained();
+-    base.link_self_contained = LinkSelfContainedDefault::InferredForMusl;
++
++    // use dynamic musl by default
++    base.crt_static_default = false;
++    // use static pie by default
++    base.static_position_independent_executables = true;
++    // we want to link to default libraries in order to reliably
++    // get in the builtins; this will also link in libc, which
++    // we likewise want (and avoid hacks in the libc module)
++    base.no_default_libraries = false;
+ 
+     base
+ }
+diff --git a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
+index 4fefdfa5c..bb65048a5 100644
+--- a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
+@@ -12,9 +12,6 @@ pub(crate) fn target() -> Target {
+         | SanitizerSet::MEMORY
+         | SanitizerSet::THREAD;
+ 
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+-
+     Target {
+         llvm_target: "aarch64-unknown-linux-musl".into(),
+         metadata: crate::spec::TargetMetadata {
+diff --git a/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabi.rs b/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabi.rs
+index 26241dd0b..08ef155a2 100644
+--- a/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabi.rs
++++ b/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabi.rs
+@@ -20,8 +20,6 @@ pub(crate) fn target() -> Target {
+             features: "+strict-align,+v6".into(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabihf.rs b/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabihf.rs
+index 4bbde7667..50f1a8d88 100644
+--- a/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabihf.rs
++++ b/compiler/rustc_target/src/spec/targets/arm_unknown_linux_musleabihf.rs
+@@ -20,8 +20,6 @@ pub(crate) fn target() -> Target {
+             features: "+strict-align,+v6,+vfp2,-d32".into(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/armv5te_unknown_linux_musleabi.rs b/compiler/rustc_target/src/spec/targets/armv5te_unknown_linux_musleabi.rs
+index 626195468..86f0b5de4 100644
+--- a/compiler/rustc_target/src/spec/targets/armv5te_unknown_linux_musleabi.rs
++++ b/compiler/rustc_target/src/spec/targets/armv5te_unknown_linux_musleabi.rs
+@@ -20,8 +20,6 @@ pub(crate) fn target() -> Target {
+             max_atomic_width: Some(32),
+             mcount: "\u{1}mcount".into(),
+             has_thumb_interworking: true,
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabi.rs b/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabi.rs
+index 0436e0d8d..8219d0b3c 100644
+--- a/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabi.rs
++++ b/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabi.rs
+@@ -24,8 +24,6 @@ pub(crate) fn target() -> Target {
+             features: "+v7,+thumb2,+soft-float,-neon".into(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabihf.rs b/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabihf.rs
+index 22e49f2f1..28a954758 100644
+--- a/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabihf.rs
++++ b/compiler/rustc_target/src/spec/targets/armv7_unknown_linux_musleabihf.rs
+@@ -23,8 +23,6 @@ pub(crate) fn target() -> Target {
+             features: "+v7,+vfp3,-d32,+thumb2,-neon".into(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/i586_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/i586_unknown_linux_musl.rs
+index 8ad93496f..623422a89 100644
+--- a/compiler/rustc_target/src/spec/targets/i586_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/i586_unknown_linux_musl.rs
+@@ -4,7 +4,5 @@ pub(crate) fn target() -> Target {
+     let mut base = super::i686_unknown_linux_musl::target();
+     base.cpu = "pentium".into();
+     base.llvm_target = "i586-unknown-linux-musl".into();
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+     base
+ }
+diff --git a/compiler/rustc_target/src/spec/targets/i686_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/i686_unknown_linux_musl.rs
+index 6ba87c732..b805b80b8 100644
+--- a/compiler/rustc_target/src/spec/targets/i686_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/i686_unknown_linux_musl.rs
+@@ -6,8 +6,6 @@ pub(crate) fn target() -> Target {
+     base.max_atomic_width = Some(64);
+     base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m32", "-Wl,-melf_i386"]);
+     base.stack_probes = StackProbeType::Inline;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     // The unwinder used by i686-unknown-linux-musl, the LLVM libunwind
+     // implementation, apparently relies on frame pointers existing... somehow.
+diff --git a/compiler/rustc_target/src/spec/targets/mips64_unknown_linux_muslabi64.rs b/compiler/rustc_target/src/spec/targets/mips64_unknown_linux_muslabi64.rs
+index 32f5c79d6..69af2da11 100644
+--- a/compiler/rustc_target/src/spec/targets/mips64_unknown_linux_muslabi64.rs
++++ b/compiler/rustc_target/src/spec/targets/mips64_unknown_linux_muslabi64.rs
+@@ -22,8 +22,6 @@ pub(crate) fn target() -> Target {
+             abi: "abi64".into(),
+             endian: Endian::Big,
+             mcount: "_mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/mips64el_unknown_linux_muslabi64.rs b/compiler/rustc_target/src/spec/targets/mips64el_unknown_linux_muslabi64.rs
+index 5e7c37fd4..4f50e8b70 100644
+--- a/compiler/rustc_target/src/spec/targets/mips64el_unknown_linux_muslabi64.rs
++++ b/compiler/rustc_target/src/spec/targets/mips64el_unknown_linux_muslabi64.rs
+@@ -5,8 +5,6 @@ pub(crate) fn target() -> Target {
+     base.cpu = "mips64r2".into();
+     base.features = "+mips64r2".into();
+     base.max_atomic_width = Some(64);
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+     Target {
+         // LLVM doesn't recognize "muslabi64" yet.
+         llvm_target: "mips64el-unknown-linux-musl".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc64_unknown_linux_musl.rs
+index a54b17c87..a964f4177 100644
+--- a/compiler/rustc_target/src/spec/targets/powerpc64_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/powerpc64_unknown_linux_musl.rs
+@@ -7,8 +7,6 @@ pub(crate) fn target() -> Target {
+     base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m64"]);
+     base.max_atomic_width = Some(64);
+     base.stack_probes = StackProbeType::Inline;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "powerpc64-unknown-linux-musl".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc64le_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc64le_unknown_linux_musl.rs
+index f763c37f5..d0335506f 100644
+--- a/compiler/rustc_target/src/spec/targets/powerpc64le_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/powerpc64le_unknown_linux_musl.rs
+@@ -6,8 +6,6 @@ pub(crate) fn target() -> Target {
+     base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m64"]);
+     base.max_atomic_width = Some(64);
+     base.stack_probes = StackProbeType::Inline;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "powerpc64le-unknown-linux-musl".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_musl.rs
+index 0cd0ea96a..5372a83e2 100644
+--- a/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_musl.rs
+@@ -6,8 +6,6 @@ pub(crate) fn target() -> Target {
+     base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m32"]);
+     base.max_atomic_width = Some(32);
+     base.stack_probes = StackProbeType::Inline;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "powerpc-unknown-linux-musl".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_muslspe.rs b/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_muslspe.rs
+index b86c3c2e8..2305db81c 100644
+--- a/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_muslspe.rs
++++ b/compiler/rustc_target/src/spec/targets/powerpc_unknown_linux_muslspe.rs
+@@ -6,8 +6,6 @@ pub(crate) fn target() -> Target {
+     base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-mspe"]);
+     base.max_atomic_width = Some(32);
+     base.stack_probes = StackProbeType::Inline;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "powerpc-unknown-linux-muslspe".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/riscv32gc_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/riscv32gc_unknown_linux_musl.rs
+index a07429bb0..08871d9d7 100644
+--- a/compiler/rustc_target/src/spec/targets/riscv32gc_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/riscv32gc_unknown_linux_musl.rs
+@@ -23,8 +23,6 @@ pub(crate) fn target() -> Target {
+             llvm_abiname: "ilp32d".into(),
+             max_atomic_width: Some(32),
+             supported_split_debuginfo: Cow::Borrowed(&[SplitDebuginfo::Off]),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/s390x_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/s390x_unknown_linux_musl.rs
+index fbe8c48ec..7a7800492 100644
+--- a/compiler/rustc_target/src/spec/targets/s390x_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/s390x_unknown_linux_musl.rs
+@@ -12,8 +12,6 @@ pub(crate) fn target() -> Target {
+     base.stack_probes = StackProbeType::Inline;
+     base.supported_sanitizers =
+         SanitizerSet::ADDRESS | SanitizerSet::LEAK | SanitizerSet::MEMORY | SanitizerSet::THREAD;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "s390x-unknown-linux-musl".into(),
+diff --git a/compiler/rustc_target/src/spec/targets/thumbv7neon_unknown_linux_musleabihf.rs b/compiler/rustc_target/src/spec/targets/thumbv7neon_unknown_linux_musleabihf.rs
+index 1149b6d16..89fd0bcd0 100644
+--- a/compiler/rustc_target/src/spec/targets/thumbv7neon_unknown_linux_musleabihf.rs
++++ b/compiler/rustc_target/src/spec/targets/thumbv7neon_unknown_linux_musleabihf.rs
+@@ -27,8 +27,6 @@ pub(crate) fn target() -> Target {
+             features: "+v7,+thumb-mode,+thumb2,+vfp3,+neon".into(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}mcount".into(),
+-            // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-            crt_static_default: true,
+             ..base::linux_musl::opts()
+         },
+     }
+diff --git a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
+index 8dcdc5be8..8be0f335d 100644
+--- a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
+@@ -14,8 +14,6 @@ pub(crate) fn target() -> Target {
+         | SanitizerSet::MEMORY
+         | SanitizerSet::THREAD;
+     base.supports_xray = true;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
+ 
+     Target {
+         llvm_target: "x86_64-unknown-linux-musl".into(),
+-- 
+2.48.1
+

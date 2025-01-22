@@ -1,0 +1,35 @@
+From 692206f37f0123a6dd4f1beed79dc1eba9cac466 Mon Sep 17 00:00:00 2001
+From: q66 <q66@chimera-linux.org>
+Date: Mon, 20 Dec 2021 01:56:48 +0100
+Subject: [PATCH 08/17] properly locate llvm when cross-compiling
+
+---
+ compiler/rustc_llvm/build.rs | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/compiler/rustc_llvm/build.rs b/compiler/rustc_llvm/build.rs
+index d9d282994..f96f49b71 100644
+--- a/compiler/rustc_llvm/build.rs
++++ b/compiler/rustc_llvm/build.rs
+@@ -325,10 +325,16 @@ fn main() {
+     cmd.arg(llvm_link_arg).arg("--ldflags");
+     for lib in output(&mut cmd).split_whitespace() {
+         if is_crossed {
++            let target_triple_arch = target.split(' ').next().unwrap().to_string();
++            let root = if target_triple_arch == "x86_64" {
++                String::from("/")
++            } else {
++                format!("/usr/{target_triple_arch}-chimera-linux-musl")
++            };
+             if let Some(stripped) = lib.strip_prefix("-LIBPATH:") {
+-                println!("cargo:rustc-link-search=native={}", stripped.replace(&host, &target));
++                println!("cargo:rustc-link-search=native={}{}", root, stripped);
+             } else if let Some(stripped) = lib.strip_prefix("-L") {
+-                println!("cargo:rustc-link-search=native={}", stripped.replace(&host, &target));
++                println!("cargo:rustc-link-search=native={}{}", root, stripped);
+             }
+         } else if let Some(stripped) = lib.strip_prefix("-LIBPATH:") {
+             println!("cargo:rustc-link-search=native={stripped}");
+-- 
+2.48.1
+

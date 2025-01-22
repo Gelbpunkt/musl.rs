@@ -1,0 +1,145 @@
+change-id = 134650
+
+[llvm]
+ninja = false
+link-shared = true
+static-libstdcpp = false
+use-libcxx = true
+download-ci-llvm = false
+
+[build]
+build = 'x86_64-unknown-linux-musl'
+host = [
+    'x86_64-unknown-linux-musl',
+    'aarch64-unknown-linux-musl',
+    'powerpc-unknown-linux-musl',
+    'powerpc64-unknown-linux-musl',
+    'powerpc64le-unknown-linux-musl',
+    'riscv64gc-unknown-linux-musl',
+]
+target = [
+    'x86_64-unknown-linux-musl',
+    'aarch64-unknown-linux-musl',
+    'powerpc-unknown-linux-musl',
+    'powerpc64-unknown-linux-musl',
+    'powerpc64le-unknown-linux-musl',
+    'riscv64gc-unknown-linux-musl',
+]
+
+cargo = '/usr/local/sbin/cargo'
+rustc = '/usr/local/sbin/rustc'
+
+docs = false
+
+python = 'python'
+
+locked-deps = true
+vendor = true
+
+extended = true
+
+tools = [
+    "cargo",
+    "clippy",
+    "rustdoc",
+    "rustfmt",
+    "rust-analyzer",
+    "rust-analyzer-proc-macro-srv",
+    "analysis",
+    "src",
+    "wasm-component-ld",
+    "miri",
+    "cargo-miri",                   # for dev/nightly channels
+]
+
+profiler = true
+
+local-rebuild = false
+
+[install]
+prefix = '/usr'
+
+[rust]
+optimize = true
+debug = false
+backtrace-on-ice = true
+codegen-units = 1
+codegen-units-std = 1
+
+debuginfo-level = 0
+debuginfo-level-std = 0
+
+lto = 'thin'
+
+incremental = false
+
+channel = 'nightly'
+description = 'musl.rs'
+
+rpath = true
+
+frame-pointers = true
+
+deny-warnings = false
+
+llvm-libunwind = 'system'
+
+[dist]
+vendor = false
+src-tarball = true
+compression-formats = ['xz']
+compression-profile = 'best'
+
+[target.x86_64-unknown-linux-musl]
+cc = '/usr/bin/clang'
+cxx = '/usr/bin/clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false
+
+[target.aarch64-unknown-linux-musl]
+cc = '/usr/bin/aarch64-chimera-linux-musl-clang'
+cxx = '/usr/bin/aarch64-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/aarch64-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false
+
+[target.powerpc-unknown-linux-musl]
+cc = '/usr/bin/powerpc-chimera-linux-musl-clang'
+cxx = '/usr/bin/powerpc-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/powerpc-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false
+
+[target.powerpc64-unknown-linux-musl]
+cc = '/usr/bin/powerpc64-chimera-linux-musl-clang'
+cxx = '/usr/bin/powerpc64-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/powerpc64-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false
+
+[target.powerpc64le-unknown-linux-musl]
+cc = '/usr/bin/powerpc64le-chimera-linux-musl-clang'
+cxx = '/usr/bin/powerpc64le-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/powerpc64le-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false
+
+[target.riscv64gc-unknown-linux-musl]
+cc = '/usr/bin/riscv64-chimera-linux-musl-clang'
+cxx = '/usr/bin/riscv64-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/riscv64-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false

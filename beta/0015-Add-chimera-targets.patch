@@ -1,0 +1,176 @@
+From b48fbe38e018a908a2e4ce45282ce7631d05ad8f Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Sun, 19 Jan 2025 23:16:20 +0100
+Subject: [PATCH 15/17] Add chimera targets
+
+Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ compiler/rustc_target/src/spec/mod.rs                  |  8 ++++++++
+ .../src/spec/targets/aarch64_chimera_linux_musl.rs     | 10 ++++++++++
+ .../src/spec/targets/arm_chimera_linux_musleabihf.rs   | 10 ++++++++++
+ .../src/spec/targets/armv7_chimera_linux_musleabihf.rs | 10 ++++++++++
+ .../src/spec/targets/powerpc64_chimera_linux_musl.rs   | 10 ++++++++++
+ .../src/spec/targets/powerpc64le_chimera_linux_musl.rs | 10 ++++++++++
+ .../src/spec/targets/powerpc_chimera_linux_musl.rs     | 10 ++++++++++
+ .../src/spec/targets/riscv64_chimera_linux_musl.rs     | 10 ++++++++++
+ .../src/spec/targets/x86_64_chimera_linux_musl.rs      | 10 ++++++++++
+ 9 files changed, 88 insertions(+)
+ create mode 100644 compiler/rustc_target/src/spec/targets/aarch64_chimera_linux_musl.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/arm_chimera_linux_musleabihf.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/armv7_chimera_linux_musleabihf.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/powerpc64_chimera_linux_musl.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/powerpc64le_chimera_linux_musl.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/powerpc_chimera_linux_musl.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/riscv64_chimera_linux_musl.rs
+ create mode 100644 compiler/rustc_target/src/spec/targets/x86_64_chimera_linux_musl.rs
+
+diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/spec/mod.rs
+index 02962d55a6..744b8e375c 100644
+--- a/compiler/rustc_target/src/spec/mod.rs
++++ b/compiler/rustc_target/src/spec/mod.rs
+@@ -1649,6 +1649,14 @@ macro_rules! supported_targets {
+ }
+ 
+ supported_targets! {
++    ("x86_64-chimera-linux-musl", x86_64_chimera_linux_musl),
++    ("arm-chimera-linux-musleabihf", arm_chimera_linux_musleabihf),
++    ("armv7-chimera-linux-musleabihf", armv7_chimera_linux_musleabihf),
++    ("aarch64-chimera-linux-musl", aarch64_chimera_linux_musl),
++    ("powerpc-chimera-linux-musl", powerpc_chimera_linux_musl),
++    ("powerpc64-chimera-linux-musl", powerpc64_chimera_linux_musl),
++    ("powerpc64le-chimera-linux-musl", powerpc64le_chimera_linux_musl),
++    ("riscv64-chimera-linux-musl", riscv64_chimera_linux_musl),
+     ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
+     ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
+     ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
+diff --git a/compiler/rustc_target/src/spec/targets/aarch64_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/aarch64_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..ff2c140aa5
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/aarch64_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::aarch64_unknown_linux_musl::target();
++
++    base.llvm_target = "aarch64-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/arm_chimera_linux_musleabihf.rs b/compiler/rustc_target/src/spec/targets/arm_chimera_linux_musleabihf.rs
+new file mode 100644
+index 0000000000..2a96971af1
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/arm_chimera_linux_musleabihf.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::arm_unknown_linux_musleabihf::target();
++
++    base.llvm_target = "arm-chimera-linux-musleabihf".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/armv7_chimera_linux_musleabihf.rs b/compiler/rustc_target/src/spec/targets/armv7_chimera_linux_musleabihf.rs
+new file mode 100644
+index 0000000000..8f44b8ec51
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/armv7_chimera_linux_musleabihf.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::armv7_unknown_linux_musleabihf::target();
++
++    base.llvm_target = "armv7-chimera-linux-musleabihf".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc64_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc64_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..5953e15654
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/powerpc64_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::powerpc64_unknown_linux_musl::target();
++
++    base.llvm_target = "powerpc64-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc64le_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc64le_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..29a7459b7a
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/powerpc64le_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::powerpc64le_unknown_linux_musl::target();
++
++    base.llvm_target = "powerpc64le-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/powerpc_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/powerpc_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..65b2d62ba0
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/powerpc_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::powerpc_unknown_linux_musl::target();
++
++    base.llvm_target = "powerpc-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/riscv64_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/riscv64_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..8c26403ce8
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/riscv64_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::riscv64gc_unknown_linux_musl::target();
++
++    base.llvm_target = "riscv64-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+diff --git a/compiler/rustc_target/src/spec/targets/x86_64_chimera_linux_musl.rs b/compiler/rustc_target/src/spec/targets/x86_64_chimera_linux_musl.rs
+new file mode 100644
+index 0000000000..9a94dd228a
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/targets/x86_64_chimera_linux_musl.rs
+@@ -0,0 +1,10 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::x86_64_unknown_linux_musl::target();
++
++    base.llvm_target = "x86_64-chimera-linux-musl".into();
++    base.options.vendor = "chimera".into();
++
++    base
++}
+-- 
+2.48.0
+

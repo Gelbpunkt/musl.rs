@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>musl.rs - nightly rust toolchains for llvm + musl</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <h1>musl.rs - nightly rust toolchains for llvm + musl</h1>
+
+    <em>This is a community website and is not officially endorsed by rust, llvm, musl or any of their authors.</em>
+
+    <p>This site provides nightly rust toolchains for musl targets.<br>
+        They are patched to use llvm libunwind and compiler-rt instead of linking to libgcc or its components.<br>
+        Another difference from upstream rust is that these toolchains link musl dynamically by default rather than
+        statically.</p>
+    <p>These toolchains are <b>NOT</b> cross toolchains. The toolchains will run <b>ONLY</b> on their particular
+        target.<br>
+        They are however very suitable for cross compilation and will play nicely with llvm and clang.<br>
+        The standard library for other targets provided by this page can be installed for cross-compilation to them.</p>
+
+    <p>Toolchains are built using Chimera Linux and the build scripts <a href="https://github.com/Gelbpunkt/musl.rs"
+            target="_blank">here</a>. All architectures supported by Chimera are built.<br>
+        The toolchains are linked dynamically to make them smaller. You may need to install libgit2, llvm and other
+        libraries to execute them.</p>
+
+    <p>Rebuilds are triggered on a ~weekly basis, mostly because patches need manual rebasing.</p>
+
+    <p>Installation: Extract the tarball, run <code>install.sh</code> and you're good to go. A rustup-ish helper will be
+        provided at some point.</p>
+
+    Included components:
+
+    <ul>
+        <li>cargo</li>
+        <li>clippy</li>
+        <li>rustdoc</li>
+        <li>rustfmt</li>
+        <li>rust-analyzer</li>
+        <li>rust-analyzer-proc-macro-srv</li>
+        <li>analysis</li>
+        <li>src</li>
+        <li>wasm-component-ld</li>
+        <li>miri</li>
+        <li>cargo-miri</li>
+    </ul>
+
+    <div class="scroll-x">
+        <table>
+            <thead>
+                <tr>
+                    <td scope="col">Architecture</td>
+                    <td>Triple</td>
+                    <td>Status</td>
+                    <td>Downloads</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td scope="row">noarch</td>
+                    <td>*</td>
+                    <td>Supported</td>
+                    <td><a href="https://dl.musl.rs/nightly/rust-src-nightly.tar.xz">rust-src</a></td>
+                </tr>
+                <tr>
+                    <td scope="row">aarch64</td>
+                    <td>aarch64-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-aarch64-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">ppc</td>
+                    <td>powerpc-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-powerpc-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">ppc64</td>
+                    <td>powerpc64-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-powerpc64-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">ppc64le</td>
+                    <td>powerpc64le-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-powerpc64le-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">riscv64</td>
+                    <td>riscv64gc-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-riscv64gc-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">x86_64</td>
+                    <td>x86_64-unknown-linux-musl</td>
+                    <td>Supported</td>
+                    <td><a
+                            href="https://dl.musl.rs/nightly/rust-nightly-x86_64-unknown-linux-musl.tar.xz">rust-nightly</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
