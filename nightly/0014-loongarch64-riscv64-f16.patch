@@ -1,7 +1,7 @@
-From 2b9ca2cd03a2918c795b2967061171e788f6cb31 Mon Sep 17 00:00:00 2001
+From 058f608022eab44a80ff2a6fab9c266de4803d9c Mon Sep 17 00:00:00 2001
 From: Jens Reidel <adrian@travitia.xyz>
 Date: Sat, 18 Jan 2025 00:55:06 +0100
-Subject: [PATCH 14/17] loongarch64-riscv64-f16
+Subject: [PATCH 14/18] loongarch64-riscv64-f16
 
 source: alpine
 ---

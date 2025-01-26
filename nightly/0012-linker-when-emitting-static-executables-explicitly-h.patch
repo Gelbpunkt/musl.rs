@@ -1,7 +1,7 @@
-From 6c5677968b2188a63c65508234d89d40ae09b20f Mon Sep 17 00:00:00 2001
+From 4283ea244666248e65ffac59274b53d8f6013a41 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Tue, 16 Jul 2024 15:04:38 +0200
-Subject: [PATCH 12/17] linker: when emitting static executables, explicitly
+Subject: [PATCH 12/18] linker: when emitting static executables, explicitly
  hint static
 
 This is important as rustc is not always in charge of what it is

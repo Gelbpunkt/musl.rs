@@ -1,7 +1,7 @@
-From 0420f91a7358c904ae9606f8279c2d0ada926931 Mon Sep 17 00:00:00 2001
+From f7b5ae58142a62bb9da551f84187746a721b2c9d Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 9 Sep 2024 17:53:26 +0200
-Subject: [PATCH 13/17] get rid of wrong linkage
+Subject: [PATCH 13/18] get rid of wrong linkage
 
 There is no good way to compute the clang builtins library
 path from inside the rust code, but there should be no harm

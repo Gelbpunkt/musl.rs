@@ -1,7 +1,7 @@
-From 78fecfeabadad080d25c5ea8cf79b3af6ca805bc Mon Sep 17 00:00:00 2001
+From 5a89d2459c97cab90010b115504b5552669e1b38 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Sat, 30 Nov 2024 01:24:27 +0100
-Subject: [PATCH 02/17] remove a bunch of unused junk
+Subject: [PATCH 02/18] remove a bunch of unused junk
 
 ---
  compiler/rustc_target/src/spec/crt_objects.rs | 22 -----

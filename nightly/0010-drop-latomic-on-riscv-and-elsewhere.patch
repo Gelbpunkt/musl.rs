@@ -1,7 +1,7 @@
-From bafc340f4a334c8bde20ffe1c0de5f2b56178a92 Mon Sep 17 00:00:00 2001
+From 2bab7c6218dda053ad57f6bd515efb849abae6e9 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 9 Sep 2024 17:56:05 +0200
-Subject: [PATCH 10/17] drop -latomic on riscv and elsewhere
+Subject: [PATCH 10/18] drop -latomic on riscv and elsewhere
 
 ---
  compiler/rustc_llvm/build.rs               | 18 +-----------------
@@ -45,7 +45,7 @@ index f96f49b71..1679e35ed 100644
      if !target.contains("msvc") {
          if let Some(s) = llvm_static_stdcpp {
 diff --git a/src/bootstrap/src/core/build_steps/llvm.rs b/src/bootstrap/src/core/build_steps/llvm.rs
-index cf55fff40..683817155 100644
+index 3cf25373b..7bedb7636 100644
 --- a/src/bootstrap/src/core/build_steps/llvm.rs
 +++ b/src/bootstrap/src/core/build_steps/llvm.rs
 @@ -413,25 +413,6 @@ impl Step for Llvm {

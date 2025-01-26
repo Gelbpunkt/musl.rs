@@ -1,7 +1,7 @@
-From 49727ad1dac86369502fc8f982a4575ea69bbd72 Mon Sep 17 00:00:00 2001
+From 77b6f0284e8ace835bef72ff7b837d2e81570729 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Thu, 4 Jan 2024 15:11:57 +0100
-Subject: [PATCH 11/17] use system lld for wasm
+Subject: [PATCH 11/18] use system lld for wasm
 
 ---
  compiler/rustc_target/src/spec/base/wasm.rs | 4 ++--

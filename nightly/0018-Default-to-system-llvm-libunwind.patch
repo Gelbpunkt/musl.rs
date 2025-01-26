@@ -1,0 +1,32 @@
+From 70e0b0530e8cd12ec6d20625f39f9ab72abcfac0 Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Sun, 26 Jan 2025 09:14:51 +0100
+Subject: [PATCH 18/18] Default to system llvm libunwind
+
+Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ library/unwind/src/lib.rs | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/library/unwind/src/lib.rs b/library/unwind/src/lib.rs
+index e4ba2bc1e..63cfdab99 100644
+--- a/library/unwind/src/lib.rs
++++ b/library/unwind/src/lib.rs
+@@ -57,13 +57,9 @@ cfg_if::cfg_if! {
+     } else if #[cfg(feature = "llvm-libunwind")] {
+         #[link(name = "unwind", kind = "static", modifiers = "-bundle")]
+         extern "C" {}
+-    } else if #[cfg(feature = "system-llvm-libunwind")] {
+-        #[link(name = "unwind", kind = "static", modifiers = "-bundle", cfg(target_feature = "crt-static"))]
+-        #[link(name = "unwind", cfg(not(target_feature = "crt-static")))]
+-        extern "C" {}
+     } else {
+         #[link(name = "unwind", kind = "static", modifiers = "-bundle", cfg(target_feature = "crt-static"))]
+-        #[link(name = "gcc_s", cfg(not(target_feature = "crt-static")))]
++        #[link(name = "unwind", cfg(not(target_feature = "crt-static")))]
+         extern "C" {}
+     }
+ }
+-- 
+2.48.1
+

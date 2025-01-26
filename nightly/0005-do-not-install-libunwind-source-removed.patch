@@ -1,7 +1,7 @@
-From bcccc3061df2433c86d7741612f5af202bcd51d5 Mon Sep 17 00:00:00 2001
+From 9c01372944241b6fd4dc64b0c9851a5afcbc6119 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Thu, 4 Jan 2024 15:05:54 +0100
-Subject: [PATCH 05/17] do not install libunwind source (removed)
+Subject: [PATCH 05/18] do not install libunwind source (removed)
 
 ---
  src/bootstrap/src/core/build_steps/dist.rs | 2 +-

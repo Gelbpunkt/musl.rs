@@ -1,7 +1,7 @@
-From 692206f37f0123a6dd4f1beed79dc1eba9cac466 Mon Sep 17 00:00:00 2001
+From 575ba1c243bd4ec907631198f48ad871a97f47e3 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 20 Dec 2021 01:56:48 +0100
-Subject: [PATCH 08/17] properly locate llvm when cross-compiling
+Subject: [PATCH 08/18] properly locate llvm when cross-compiling
 
 ---
  compiler/rustc_llvm/build.rs | 10 ++++++++--

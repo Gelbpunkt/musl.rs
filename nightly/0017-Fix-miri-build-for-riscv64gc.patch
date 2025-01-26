@@ -1,7 +1,7 @@
-From cec3fec89dca91cff778aa093c8c3b34e944ffdf Mon Sep 17 00:00:00 2001
+From cec80e7505442b0a9777432e98d39b08c301c07b Mon Sep 17 00:00:00 2001
 From: Jens Reidel <adrian@travitia.xyz>
 Date: Wed, 22 Jan 2025 00:57:46 +0100
-Subject: [PATCH 17/17] Fix miri build for riscv64gc
+Subject: [PATCH 17/18] Fix miri build for riscv64gc
 
 Signed-off-by: Jens Reidel <adrian@travitia.xyz>
 ---
