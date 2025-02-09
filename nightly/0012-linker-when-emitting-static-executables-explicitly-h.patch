@@ -1,4 +1,4 @@
-From 4283ea244666248e65ffac59274b53d8f6013a41 Mon Sep 17 00:00:00 2001
+From 7e280d4a17f2d33d3d29c0af60d4861d532aea08 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Tue, 16 Jul 2024 15:04:38 +0200
 Subject: [PATCH 12/18] linker: when emitting static executables, explicitly

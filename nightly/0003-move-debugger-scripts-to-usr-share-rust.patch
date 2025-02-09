@@ -1,4 +1,4 @@
-From 9f3903471eb1b4ac5837dde5d490e4aaea6c8249 Mon Sep 17 00:00:00 2001
+From c0502d0a4c83663b5ce268b4bbedca67efa20ca5 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Thu, 4 Jan 2024 15:01:57 +0100
 Subject: [PATCH 03/18] move debugger scripts to /usr/share/rust

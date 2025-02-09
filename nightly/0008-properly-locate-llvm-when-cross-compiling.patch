@@ -1,4 +1,4 @@
-From 575ba1c243bd4ec907631198f48ad871a97f47e3 Mon Sep 17 00:00:00 2001
+From 257fb6fca7a3b0e191cccd4104155a47156023e0 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 20 Dec 2021 01:56:48 +0100
 Subject: [PATCH 08/18] properly locate llvm when cross-compiling

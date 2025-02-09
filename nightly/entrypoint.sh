@@ -30,7 +30,7 @@ done
 /src/clear_checksums.py vendor/libc-0.2.169/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.94/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.97/.cargo-checksum.json
-/src/clear_checksums.py vendor/compiler_builtins-0.1.143/.cargo-checksum.json
+/src/clear_checksums.py vendor/compiler_builtins-0.1.145/.cargo-checksum.json
 /src/clear_checksums.py vendor/libffi-sys-2.3.0/.cargo-checksum.json
 
 cp /src/nightly/config.toml .

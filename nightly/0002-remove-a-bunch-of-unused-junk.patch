@@ -1,4 +1,4 @@
-From 5a89d2459c97cab90010b115504b5552669e1b38 Mon Sep 17 00:00:00 2001
+From 753aae69eb47df577ba9f259d57086cd221bd118 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Sat, 30 Nov 2024 01:24:27 +0100
 Subject: [PATCH 02/18] remove a bunch of unused junk
@@ -148,7 +148,7 @@ index a86c20d46..ee9afdd8b 100755
      "qemu-armhf-rootfs",
      "target.arm-unknown-linux-gnueabihf.qemu-rootfs",
 diff --git a/src/bootstrap/src/core/build_steps/compile.rs b/src/bootstrap/src/core/build_steps/compile.rs
-index fd9bf4723..9d02ba2d0 100644
+index cd3558ac6..ad32d43b8 100644
 --- a/src/bootstrap/src/core/build_steps/compile.rs
 +++ b/src/bootstrap/src/core/build_steps/compile.rs
 @@ -332,40 +332,7 @@ fn copy_self_contained_objects(
@@ -162,7 +162,7 @@ index fd9bf4723..9d02ba2d0 100644
 -    // to using gcc from a glibc-targeting toolchain for linking.
 -    // To do that we have to distribute musl startup objects as a part of Rust toolchain
 -    // and link with them manually in the self-contained mode.
--    if target.contains("musl") && !target.contains("unikraft") {
+-    if target.needs_crt_begin_end() {
 -        let srcdir = builder.musl_libdir(target).unwrap_or_else(|| {
 -            panic!("Target {:?} does not have a \"musl-libdir\" key", target.triple)
 -        });
@@ -210,10 +210,10 @@ index fd9bf4723..9d02ba2d0 100644
              if let Some(dir) = builder.wasi_libdir(target) {
                  let root = format!("native={}", dir.to_str().unwrap());
 diff --git a/src/bootstrap/src/core/config/config.rs b/src/bootstrap/src/core/config/config.rs
-index 910550b0a..5a34133ab 100644
+index 4694dd2ca..b5796c5c8 100644
 --- a/src/bootstrap/src/core/config/config.rs
 +++ b/src/bootstrap/src/core/config/config.rs
-@@ -347,8 +347,6 @@ pub struct Config {
+@@ -349,8 +349,6 @@ pub struct Config {
      pub print_step_timings: bool,
      pub print_step_rusage: bool,
  
@@ -222,7 +222,7 @@ index 910550b0a..5a34133ab 100644
      pub prefix: Option<PathBuf>,
      pub sysconfdir: Option<PathBuf>,
      pub datadir: Option<PathBuf>,
-@@ -629,8 +627,6 @@ pub struct Target {
+@@ -635,8 +633,6 @@ pub struct Target {
      pub profiler: Option<StringOrBool>,
      pub rpath: Option<bool>,
      pub crt_static: Option<bool>,
@@ -231,7 +231,7 @@ index 910550b0a..5a34133ab 100644
      pub wasi_root: Option<PathBuf>,
      pub qemu_rootfs: Option<PathBuf>,
      pub runner: Option<String>,
-@@ -1160,7 +1156,6 @@ define_config! {
+@@ -1169,7 +1165,6 @@ define_config! {
          default_linker: Option<String> = "default-linker",
          channel: Option<String> = "channel",
          description: Option<String> = "description",
@@ -239,7 +239,7 @@ index 910550b0a..5a34133ab 100644
          rpath: Option<bool> = "rpath",
          strip: Option<bool> = "strip",
          frame_pointers: Option<bool> = "frame-pointers",
-@@ -1215,8 +1210,6 @@ define_config! {
+@@ -1224,8 +1219,6 @@ define_config! {
          profiler: Option<StringOrBool> = "profiler",
          rpath: Option<bool> = "rpath",
          crt_static: Option<bool> = "crt-static",
@@ -248,7 +248,7 @@ index 910550b0a..5a34133ab 100644
          wasi_root: Option<String> = "wasi-root",
          qemu_rootfs: Option<String> = "qemu-rootfs",
          no_std: Option<bool> = "no-std",
-@@ -1762,7 +1755,6 @@ impl Config {
+@@ -1818,7 +1811,6 @@ impl Config {
                  default_linker,
                  channel: _, // already handled above
                  description,
@@ -256,7 +256,7 @@ index 910550b0a..5a34133ab 100644
                  rpath,
                  verbose_tests,
                  optimize_tests,
-@@ -1870,7 +1862,6 @@ impl Config {
+@@ -1926,7 +1918,6 @@ impl Config {
              config.llvm_enzyme =
                  llvm_enzyme.unwrap_or(config.channel == "dev" || config.channel == "nightly");
              config.rustc_default_linker = default_linker;
@@ -264,7 +264,7 @@ index 910550b0a..5a34133ab 100644
              config.save_toolstates = save_toolstates.map(PathBuf::from);
              set(&mut config.deny_warnings, match flags.warnings {
                  Warnings::Deny => Some(true),
-@@ -2092,8 +2083,6 @@ impl Config {
+@@ -2148,8 +2139,6 @@ impl Config {
                  target.ranlib = cfg.ranlib.map(PathBuf::from);
                  target.linker = cfg.linker.map(PathBuf::from);
                  target.crt_static = cfg.crt_static;
@@ -273,7 +273,7 @@ index 910550b0a..5a34133ab 100644
                  target.wasi_root = cfg.wasi_root.map(PathBuf::from);
                  target.qemu_rootfs = cfg.qemu_rootfs.map(PathBuf::from);
                  target.runner = cfg.runner;
-@@ -3227,7 +3216,6 @@ fn check_incompatible_options_for_ci_rustc(
+@@ -3283,7 +3272,6 @@ fn check_incompatible_options_for_ci_rustc(
          debuginfo_level_tools: _,
          debuginfo_level_tests: _,
          backtrace: _,
@@ -282,10 +282,10 @@ index 910550b0a..5a34133ab 100644
          optimize_tests: _,
          codegen_tests: _,
 diff --git a/src/bootstrap/src/core/sanity.rs b/src/bootstrap/src/core/sanity.rs
-index ed0155622..fb18e7989 100644
+index 6c8cda185..0e5a44532 100644
 --- a/src/bootstrap/src/core/sanity.rs
 +++ b/src/bootstrap/src/core/sanity.rs
-@@ -321,28 +321,6 @@ than building it.
+@@ -325,28 +325,6 @@ than building it.
              continue;
          }
  
@@ -315,10 +315,10 @@ index ed0155622..fb18e7989 100644
              // There are three builds of cmake on windows: MSVC, MinGW, and
              // Cygwin. The Cygwin build does not have generators for Visual
 diff --git a/src/bootstrap/src/lib.rs b/src/bootstrap/src/lib.rs
-index 482e23cd0..b45872fef 100644
+index 4e097b675..1dca5a491 100644
 --- a/src/bootstrap/src/lib.rs
 +++ b/src/bootstrap/src/lib.rs
-@@ -1259,25 +1259,6 @@ Executed at: {executed_at}"#,
+@@ -1298,25 +1298,6 @@ Executed at: {executed_at}"#,
          }
      }
  

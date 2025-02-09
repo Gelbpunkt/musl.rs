@@ -1,4 +1,4 @@
-From 776d972cce3555e604030b46061a4cfa306cf40d Mon Sep 17 00:00:00 2001
+From 9bdfcf5732988b61d07366b6ffaf60f225013da0 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Thu, 4 Jan 2024 14:53:26 +0100
 Subject: [PATCH 01/18] always dynamic musl + static pie
