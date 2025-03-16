@@ -143,3 +143,12 @@ ranlib = '/usr/bin/llvm-ranlib'
 linker = '/usr/bin/riscv64-chimera-linux-musl-clang'
 llvm-config = '/usr/bin/llvm-config'
 crt-static = false
+
+[target.loongarch64-unknown-linux-musl]
+cc = '/usr/bin/loongarch64-chimera-linux-musl-clang'
+cxx = '/usr/bin/loongarch64-chimera-linux-musl-clang++'
+ar = '/usr/bin/llvm-ar'
+ranlib = '/usr/bin/llvm-ranlib'
+linker = '/usr/bin/loongarch64-chimera-linux-musl-clang'
+llvm-config = '/usr/bin/llvm-config'
+crt-static = false

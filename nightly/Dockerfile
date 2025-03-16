@@ -1,7 +1,7 @@
 FROM docker.io/chimeralinux/chimera:latest
 
-ENV CROSS_ARCHES riscv64 ppc ppc64 ppc64le aarch64
-ENV PRETTY_ARCHES riscv64 powerpc powerpc64 powerpc64le aarch64
+ENV CROSS_ARCHES loongarch64 riscv64 ppc ppc64 ppc64le aarch64
+ENV PRETTY_ARCHES loongarch64 riscv64 powerpc powerpc64 powerpc64le aarch64
 
 # Install hostmakedepends
 RUN apk add \
@@ -43,12 +43,13 @@ RUN cross_arches=($CROSS_ARCHES) && \
     pretty_arches=($PRETTY_ARCHES) && \
     for i in "${!cross_arches[@]}"; do \
         ARCH=${cross_arches[i]} && \
-	PRETTY=${pretty_arches[i]} && \
-        echo "Creating chroot for $ARCH" && \
-        mkdir -p /usr/$PRETTY-chimera-linux-musl/etc/apk && \
-        cp -r /etc/apk/repositories.d /usr/$PRETTY-chimera-linux-musl/etc/apk/ && \
+        PRETTY=${pretty_arches[i]} && \
+        echo "Creating chroot for $ARCH ($PRETTY)" && \
+        mkdir -p /usr/$PRETTY-chimera-linux-musl/usr/lib/apk && \
+        cp -r /usr/lib/apk/repositories.d /usr/$PRETTY-chimera-linux-musl/usr/lib/apk/ && \
         mkdir /usr/$PRETTY-chimera-linux-musl/proc && \
         mount --bind /proc /usr/$PRETTY-chimera-linux-musl/proc && \
+        mkdir -p /usr/$PRETTY-chimera-linux-musl/etc/apk && \
         echo $ARCH > /usr/$PRETTY-chimera-linux-musl/etc/apk/arch && \
         apk --root /usr/$PRETTY-chimera-linux-musl add --allow-untrusted -U --initdb \
             base-files \
@@ -103,6 +104,11 @@ ENV PKG_CONFIG_PATH_riscv64gc_unknown_linux_musl /usr/lib/riscv64-linux-musl/pkg
 ENV CFLAGS_riscv64gc_unknown_linux_musl "--sysroot=/usr/riscv64-chimera-linux-musl/"
 ENV CXXFLAGS_riscv64gc_unknown_linux_musl "--sysroot=/usr/riscv64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/riscv64-chimera-linux-musl/usr/include/c++/v1 -I/usr/riscv64-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_RISCV64GC_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/riscv64-chimera-linux-musl/usr/lib"
+
+ENV PKG_CONFIG_PATH_loongarch64_unknown_linux_musl /usr/lib/loongarch64-linux-musl/pkgconfig
+ENV CFLAGS_loongarch64_unknown_linux_musl "--sysroot=/usr/loongarch64-chimera-linux-musl/"
+ENV CXXFLAGS_loongarch64_unknown_linux_musl "--sysroot=/usr/loongarch64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/loongarch64-chimera-linux-musl/usr/include/c++/v1 -I/usr/loongarch64-chimera-linux-musl/usr/include/"
+ENV CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/loongarch64-chimera-linux-musl/usr/lib"
 
 WORKDIR /src
 
