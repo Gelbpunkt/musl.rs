@@ -24,13 +24,14 @@ done
 /src/clear_checksums.py vendor/libc-0.2.121/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.124/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.155/.cargo-checksum.json
-/src/clear_checksums.py vendor/libc-0.2.158/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.167/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.168/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.169/.cargo-checksum.json
+/src/clear_checksums.py vendor/libc-0.2.170/.cargo-checksum.json
+/src/clear_checksums.py vendor/libc-0.2.171/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.94/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.97/.cargo-checksum.json
-/src/clear_checksums.py vendor/compiler_builtins-0.1.145/.cargo-checksum.json
+/src/clear_checksums.py vendor/compiler_builtins-0.1.151/.cargo-checksum.json
 /src/clear_checksums.py vendor/libffi-sys-2.3.0/.cargo-checksum.json
 
 cp /src/nightly/config.toml .

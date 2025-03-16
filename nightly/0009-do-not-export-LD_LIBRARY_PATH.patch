@@ -1,4 +1,4 @@
-From 4d94913762fc112addb0d244539eb1aff3d38a90 Mon Sep 17 00:00:00 2001
+From 0da4aa1ab643ee0af679f777ed13094158c93332 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Fri, 25 Feb 2022 00:39:21 +0100
 Subject: [PATCH 09/18] do not export LD_LIBRARY_PATH
