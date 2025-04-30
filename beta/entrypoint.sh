@@ -22,15 +22,19 @@ done
 /src/clear_checksums.py vendor/libc-0.2.119/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.121/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.124/.cargo-checksum.json
-/src/clear_checksums.py vendor/libc-0.2.150/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.155/.cargo-checksum.json
-/src/clear_checksums.py vendor/libc-0.2.158/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.167/.cargo-checksum.json
+/src/clear_checksums.py vendor/libc-0.2.168/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.169/.cargo-checksum.json
+/src/clear_checksums.py vendor/libc-0.2.170/.cargo-checksum.json
+/src/clear_checksums.py vendor/libc-0.2.171/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.94/.cargo-checksum.json
 /src/clear_checksums.py vendor/libc-0.2.97/.cargo-checksum.json
-/src/clear_checksums.py vendor/compiler_builtins-0.1.140/.cargo-checksum.json
+/src/clear_checksums.py vendor/compiler_builtins-0.1.152/.cargo-checksum.json
 /src/clear_checksums.py vendor/cc-1.2.0/.cargo-checksum.json
+/src/clear_checksums.py vendor/cc-1.2.10/.cargo-checksum.json
+/src/clear_checksums.py vendor/cc-1.2.16/.cargo-checksum.json
+/src/clear_checksums.py vendor/cc-1.2.17/.cargo-checksum.json
 
 cp /src/beta/config.toml .
 

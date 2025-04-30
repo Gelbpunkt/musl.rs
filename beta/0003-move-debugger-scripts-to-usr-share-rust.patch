@@ -1,20 +1,19 @@
-From 75d46bee30281e1ffd85b6ad4d300dd6ab54d32b Mon Sep 17 00:00:00 2001
+From ea50610c7731a4c59f485d2fa12a31ddda844222 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Thu, 4 Jan 2024 15:01:57 +0100
-Subject: [PATCH 03/17] move debugger scripts to /usr/share/rust
+Subject: [PATCH 03/20] move debugger scripts to /usr/share/rust
 
 ---
  src/bootstrap/src/core/build_steps/dist.rs | 2 +-
  src/etc/rust-gdb                           | 2 +-
- src/etc/rust-gdbgui                        | 2 +-
  src/etc/rust-lldb                          | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/src/bootstrap/src/core/build_steps/dist.rs b/src/bootstrap/src/core/build_steps/dist.rs
-index aa664998f9..127db8aa2b 100644
+index 83f71aeed..b869e1089 100644
 --- a/src/bootstrap/src/core/build_steps/dist.rs
 +++ b/src/bootstrap/src/core/build_steps/dist.rs
-@@ -532,7 +532,7 @@ impl Step for DebuggerScripts {
+@@ -559,7 +559,7 @@ impl Step for DebuggerScripts {
      fn run(self, builder: &Builder<'_>) {
          let host = self.host;
          let sysroot = self.sysroot;
@@ -22,9 +21,9 @@ index aa664998f9..127db8aa2b 100644
 +        let dst = sysroot.join("share/rust");
          t!(fs::create_dir_all(&dst));
          let cp_debugger_script = |file: &str| {
-             builder.install(&builder.src.join("src/etc/").join(file), &dst, 0o644);
+             builder.install(&builder.src.join("src/etc/").join(file), &dst, FileType::Regular);
 diff --git a/src/etc/rust-gdb b/src/etc/rust-gdb
-index 9abed30ea6..4c7f953edf 100755
+index 9abed30ea..4c7f953ed 100755
 --- a/src/etc/rust-gdb
 +++ b/src/etc/rust-gdb
 @@ -12,7 +12,7 @@ fi
@@ -36,21 +35,8 @@ index 9abed30ea6..4c7f953edf 100755
  # Get the commit hash for path remapping
  RUSTC_COMMIT_HASH="$("$RUSTC" -vV | sed -n 's/commit-hash: \([a-zA-Z0-9_]*\)/\1/p')"
  
-diff --git a/src/etc/rust-gdbgui b/src/etc/rust-gdbgui
-index 471810cbb1..ba4e272412 100755
---- a/src/etc/rust-gdbgui
-+++ b/src/etc/rust-gdbgui
-@@ -41,7 +41,7 @@ fi
- 
- # Find out where the pretty printer Python module is
- RUSTC_SYSROOT="$("$RUSTC" --print=sysroot)"
--GDB_PYTHON_MODULE_DIRECTORY="$RUSTC_SYSROOT/lib/rustlib/etc"
-+GDB_PYTHON_MODULE_DIRECTORY="$RUSTC_SYSROOT/share/rust"
- # Get the commit hash for path remapping
- RUSTC_COMMIT_HASH="$("$RUSTC" -vV | sed -n 's/commit-hash: \([a-zA-Z0-9_]*\)/\1/p')"
- 
 diff --git a/src/etc/rust-lldb b/src/etc/rust-lldb
-index bce72f1bad..8abb012452 100755
+index bce72f1ba..8abb01245 100755
 --- a/src/etc/rust-lldb
 +++ b/src/etc/rust-lldb
 @@ -30,8 +30,8 @@ EOF
@@ -65,5 +51,5 @@ index bce72f1bad..8abb012452 100755
  # Call LLDB with the commands added to the argument list
  exec "$lldb" --one-line-before-file "$script_import" --source-before-file "$commands_file" "$@"
 -- 
-2.48.0
+2.49.0
 

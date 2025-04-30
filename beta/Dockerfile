@@ -41,7 +41,7 @@ RUN apk add \
 # Install bootstrapping rust compiler
 RUN apk add rust
 
-RUN ln -s /usr/lib/clang/19/lib/x86_64-chimera-linux-musl /usr/lib/clang/19/lib/x86_64-unknown-linux-musl
+RUN ln -s /usr/lib/clang/20/lib/x86_64-chimera-linux-musl /usr/lib/clang/20/lib/x86_64-unknown-linux-musl
 
 ENV SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt
 ENV OPENSSL_NO_VENDOR 1

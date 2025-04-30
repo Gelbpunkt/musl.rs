@@ -1,7 +1,7 @@
-From 401b82f1adaf064e47c9cfc27495cce6bbb82c28 Mon Sep 17 00:00:00 2001
+From 23c38e5f8c37b02da9e74428e5d74e4cc92a4357 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Tue, 16 Jul 2024 15:04:38 +0200
-Subject: [PATCH 12/17] linker: when emitting static executables, explicitly
+Subject: [PATCH 12/20] linker: when emitting static executables, explicitly
  hint static
 
 This is important as rustc is not always in charge of what it is
@@ -19,7 +19,7 @@ implicit libs statically as expected.
  1 file changed, 8 insertions(+)
 
 diff --git a/compiler/rustc_codegen_ssa/src/back/linker.rs b/compiler/rustc_codegen_ssa/src/back/linker.rs
-index 3c6513ca26..06dbd7efdc 100644
+index bcf18cf57..408f6a165 100644
 --- a/compiler/rustc_codegen_ssa/src/back/linker.rs
 +++ b/compiler/rustc_codegen_ssa/src/back/linker.rs
 @@ -524,6 +524,10 @@ impl<'a> Linker for GccLinker<'a> {
@@ -52,5 +52,5 @@ index 3c6513ca26..06dbd7efdc 100644
                  self.build_dylib(crate_type, out_filename);
              }
 -- 
-2.48.0
+2.49.0
 

@@ -1,0 +1,25 @@
+From 4e85e1aa52add114289fde54d37e37494d6f4b7d Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Sun, 9 Feb 2025 22:58:43 +0100
+Subject: [PATCH 14/20] riscv64-f16
+
+source: alpine
+---
+ vendor/compiler_builtins-0.1.152/configure.rs | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/vendor/compiler_builtins-0.1.152/configure.rs b/vendor/compiler_builtins-0.1.152/configure.rs
+index 2f134e578..bab7f1aa2 100644
+--- a/vendor/compiler_builtins-0.1.152/configure.rs
++++ b/vendor/compiler_builtins-0.1.152/configure.rs
+@@ -99,6 +99,7 @@ pub fn configure_f16_f128(target: &Target) {
+         "csky" => false,
+         "hexagon" => false,
+         "powerpc" | "powerpc64" => false,
++        "riscv64" | "riscv64gc" => false,
+         "sparc" | "sparc64" => false,
+         "wasm32" | "wasm64" => false,
+         // Most everything else works as of LLVM 19
+-- 
+2.49.0
+

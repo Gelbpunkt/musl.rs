@@ -1,0 +1,25 @@
+From f114673afd7d9ba439a1d11b7086f3ce5d4e9cf7 Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Wed, 22 Jan 2025 00:57:46 +0100
+Subject: [PATCH 17/20] Fix miri build for riscv64gc
+
+Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ vendor/libffi-sys-2.3.0/build/not_msvc.rs | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/vendor/libffi-sys-2.3.0/build/not_msvc.rs b/vendor/libffi-sys-2.3.0/build/not_msvc.rs
+index 48dcfbe32..88af60086 100644
+--- a/vendor/libffi-sys-2.3.0/build/not_msvc.rs
++++ b/vendor/libffi-sys-2.3.0/build/not_msvc.rs
+@@ -58,6 +58,7 @@ pub fn configure_libffi(prefix: PathBuf, build_dir: &Path) {
+         let cross_host = match target.as_str() {
+             // Autoconf uses riscv64 while Rust uses riscv64gc for the architecture
+             "riscv64gc-unknown-linux-gnu" => "riscv64-unknown-linux-gnu",
++            "riscv64gc-unknown-linux-musl" => "riscv64-unknown-linux-musl",
+             // Autoconf does not yet recognize illumos, but Solaris should be fine
+             "x86_64-unknown-illumos" => "x86_64-unknown-solaris",
+             // configure.host does not extract `ios-sim` as OS.
+-- 
+2.49.0
+

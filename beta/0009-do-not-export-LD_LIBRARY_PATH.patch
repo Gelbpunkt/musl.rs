@@ -1,14 +1,14 @@
-From 0e549411276daae63093f4dec8cfb24d291598ae Mon Sep 17 00:00:00 2001
+From be517902be094ffb5ec7d545e727f197ad4d34e6 Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Fri, 25 Feb 2022 00:39:21 +0100
-Subject: [PATCH 09/17] do not export LD_LIBRARY_PATH
+Subject: [PATCH 09/20] do not export LD_LIBRARY_PATH
 
 ---
  src/bootstrap/bootstrap.py | 11 -----------
  1 file changed, 11 deletions(-)
 
 diff --git a/src/bootstrap/bootstrap.py b/src/bootstrap/bootstrap.py
-index 89415afbe3..ba99232bcc 100644
+index 68400ba0e..ea1e289b0 100644
 --- a/src/bootstrap/bootstrap.py
 +++ b/src/bootstrap/bootstrap.py
 @@ -1023,17 +1023,6 @@ class RustBuild(object):
@@ -30,5 +30,5 @@ index 89415afbe3..ba99232bcc 100644
              os.path.join(self.bin_root(), "lib") + (os.pathsep + env["LIBRARY_PATH"])
              if "LIBRARY_PATH" in env
 -- 
-2.48.0
+2.49.0
 

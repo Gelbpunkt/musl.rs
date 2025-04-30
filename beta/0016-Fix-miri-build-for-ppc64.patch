@@ -1,0 +1,26 @@
+From b58f26762318507cbc7282fcab7518e093e3fead Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Tue, 21 Jan 2025 22:42:35 +0100
+Subject: [PATCH 16/20] Fix miri build for ppc64
+
+Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ vendor/libffi-sys-2.3.0/src/arch.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/vendor/libffi-sys-2.3.0/src/arch.rs b/vendor/libffi-sys-2.3.0/src/arch.rs
+index 4ffe486a2..3ca17f850 100644
+--- a/vendor/libffi-sys-2.3.0/src/arch.rs
++++ b/vendor/libffi-sys-2.3.0/src/arch.rs
+@@ -251,7 +251,7 @@ mod powerpc {
+             // ELFv1 is the used for powerpc64 when not targeting musl
+             all(target_arch = "powerpc64", target_endian="big", not(target_env = "musl")),
+             // Use empty flags when targeting a non-PowerPC target, too, just so code compiles.
+-            not(all(target_arch = "powerpc64", target_endian="little"))
++            not(target_arch = "powerpc64")
+         ))]
+         mod elf {
+             pub use super::elfv1::*;
+-- 
+2.49.0
+

@@ -1,0 +1,97 @@
+From c6920b7be223edf0078bee7adb560d999328b8bc Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Wed, 30 Apr 2025 04:47:30 +0200
+Subject: [PATCH 19/20] Teach cc-rs about x86_64-chimera-linux-musl
+
+Signed-off-by: Jens Reidel <adrian@travitia.xyz>
+---
+ vendor/cc-1.2.0/src/target/generated.rs  | 12 ++++++++++++
+ vendor/cc-1.2.10/src/target/generated.rs | 12 ++++++++++++
+ vendor/cc-1.2.16/src/target/generated.rs | 12 ++++++++++++
+ vendor/cc-1.2.17/src/target/generated.rs |  1 +
+ 4 files changed, 37 insertions(+)
+
+diff --git a/vendor/cc-1.2.0/src/target/generated.rs b/vendor/cc-1.2.0/src/target/generated.rs
+index 0c9b0ae1a..cff74861f 100644
+--- a/vendor/cc-1.2.0/src/target/generated.rs
++++ b/vendor/cc-1.2.0/src/target/generated.rs
+@@ -2848,6 +2848,18 @@ pub(crate) const LIST: &[(&str, TargetInfo<'static>)] = &[
+             unversioned_llvm_target: "x86_64-apple-watchos-simulator",
+         },
+     ),
++    (
++        "x86_64-chimera-linux-musl",
++        TargetInfo {
++            full_arch: "x86_64",
++            arch: "x86_64",
++            vendor: "unknown",
++            os: "linux",
++            env: "musl",
++            abi: "",
++            unversioned_llvm_target: "x86_64-unknown-linux-musl",
++        },
++    ),
+     (
+         "x86_64-fortanix-unknown-sgx",
+         TargetInfo {
+diff --git a/vendor/cc-1.2.10/src/target/generated.rs b/vendor/cc-1.2.10/src/target/generated.rs
+index bfaa2937d..f7b6d8051 100644
+--- a/vendor/cc-1.2.10/src/target/generated.rs
++++ b/vendor/cc-1.2.10/src/target/generated.rs
+@@ -2896,6 +2896,18 @@ pub(crate) const LIST: &[(&str, TargetInfo<'static>)] = &[
+             unversioned_llvm_target: "x86_64-apple-watchos-simulator",
+         },
+     ),
++    (
++        "x86_64-chimera-linux-musl",
++        TargetInfo {
++            full_arch: "x86_64",
++            arch: "x86_64",
++            vendor: "unknown",
++            os: "linux",
++            env: "musl",
++            abi: "",
++            unversioned_llvm_target: "x86_64-unknown-linux-musl",
++        },
++    ),
+     (
+         "x86_64-fortanix-unknown-sgx",
+         TargetInfo {
+diff --git a/vendor/cc-1.2.16/src/target/generated.rs b/vendor/cc-1.2.16/src/target/generated.rs
+index 377a369f6..daddd11ee 100644
+--- a/vendor/cc-1.2.16/src/target/generated.rs
++++ b/vendor/cc-1.2.16/src/target/generated.rs
+@@ -3004,6 +3004,18 @@ pub(crate) const LIST: &[(&str, TargetInfo<'static>)] = &[
+             llvm_target: "x86_64-apple-watchos-simulator",
+         },
+     ),
++    (
++        "x86_64-chimera-linux-musl",
++        TargetInfo {
++            full_arch: "x86_64",
++            arch: "x86_64",
++            vendor: "unknown",
++            os: "linux",
++            env: "musl",
++            abi: "",
++            llvm_target: "x86_64-unknown-linux-musl",
++        },
++    ),
+     (
+         "x86_64-fortanix-unknown-sgx",
+         TargetInfo {
+diff --git a/vendor/cc-1.2.17/src/target/generated.rs b/vendor/cc-1.2.17/src/target/generated.rs
+index 1449646e3..6e7391ff7 100644
+--- a/vendor/cc-1.2.17/src/target/generated.rs
++++ b/vendor/cc-1.2.17/src/target/generated.rs
+@@ -267,6 +267,7 @@ pub(crate) const LLVM_TARGETS: &[(&str, &str)] = &[
+     ("x86_64-pc-windows-gnullvm", "x86_64-pc-windows-gnu"),
+     ("x86_64-pc-windows-msvc", "x86_64-pc-windows-msvc"),
+     ("x86_64-sun-solaris", "x86_64-pc-solaris"),
++    ("x86_64-chimera-linux-musl", "x86_64-unknown-linux-musl"),
+     ("x86_64-unikraft-linux-musl", "x86_64-unknown-linux-musl"),
+     ("x86_64-unknown-dragonfly", "x86_64-unknown-dragonfly"),
+     ("x86_64-unknown-freebsd", "x86_64-unknown-freebsd"),
+-- 
+2.49.0
+

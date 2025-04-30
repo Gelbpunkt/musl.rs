@@ -1,7 +1,7 @@
-From 0c78e0ed4418820d7ef6d2bf6a51e2982c810153 Mon Sep 17 00:00:00 2001
+From 776d8795b7187fbd183b0bb63f7c5b9043f66c72 Mon Sep 17 00:00:00 2001
 From: Jens Reidel <adrian@travitia.xyz>
 Date: Mon, 20 Jan 2025 00:47:24 +0100
-Subject: [PATCH 17/17] Don't link musl statically on unknown musl targets
+Subject: [PATCH 15/20] Don't link musl statically on unknown musl targets
 
 Signed-off-by: Jens Reidel <adrian@travitia.xyz>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Jens Reidel <adrian@travitia.xyz>
  1 file changed, 3 deletions(-)
 
 diff --git a/src/bootstrap/src/utils/cc_detect.rs b/src/bootstrap/src/utils/cc_detect.rs
-index 211efb6e34..08bdadf7b3 100644
+index 0fae1c7fa..dc3fa210b 100644
 --- a/src/bootstrap/src/utils/cc_detect.rs
 +++ b/src/bootstrap/src/utils/cc_detect.rs
-@@ -88,9 +88,6 @@ fn new_cc_build(build: &Build, target: TargetSelection) -> cc::Build {
+@@ -78,9 +78,6 @@ fn new_cc_build(build: &Build, target: TargetSelection) -> cc::Build {
              if target.is_msvc() {
                  cfg.static_crt(true);
              }
@@ -23,5 +23,5 @@ index 211efb6e34..08bdadf7b3 100644
      }
      cfg
 -- 
-2.48.0
+2.49.0
 
