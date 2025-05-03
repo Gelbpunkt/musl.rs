@@ -1,7 +1,7 @@
-From c9b2e1ba6c560966fc17088a1bbb4bea6482a7b3 Mon Sep 17 00:00:00 2001
+From f8448609781cd178c15e178fcd048d7381d3ab6b Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 9 Sep 2024 17:56:05 +0200
-Subject: [PATCH 10/18] drop -latomic on riscv and elsewhere
+Subject: [PATCH 10/17] drop -latomic on riscv and elsewhere
 
 ---
  compiler/rustc_llvm/build.rs               | 18 +-----------------
@@ -9,14 +9,14 @@ Subject: [PATCH 10/18] drop -latomic on riscv and elsewhere
  2 files changed, 1 insertion(+), 36 deletions(-)
 
 diff --git a/compiler/rustc_llvm/build.rs b/compiler/rustc_llvm/build.rs
-index 1064493ab..5e983dd94 100644
+index c2bedb11d..768d4418e 100644
 --- a/compiler/rustc_llvm/build.rs
 +++ b/compiler/rustc_llvm/build.rs
 @@ -241,15 +241,7 @@ fn main() {
          println!("cargo:rustc-link-lib=kstat");
      }
  
--    if (target.starts_with("arm") && !target.contains("freebsd"))
+-    if (target.starts_with("arm") && !target.contains("freebsd")) && !target.contains("ohos")
 -        || target.starts_with("mips-")
 -        || target.starts_with("mipsel-")
 -        || target.starts_with("powerpc-")
@@ -29,7 +29,7 @@ index 1064493ab..5e983dd94 100644
          println!("cargo:rustc-link-lib=shell32");
          println!("cargo:rustc-link-lib=uuid");
      } else if target.contains("haiku")
-@@ -388,14 +380,6 @@ fn main() {
+@@ -389,14 +381,6 @@ fn main() {
          "stdc++"
      };
  
@@ -45,10 +45,10 @@ index 1064493ab..5e983dd94 100644
      if !target.contains("msvc") {
          if let Some(s) = llvm_static_stdcpp {
 diff --git a/src/bootstrap/src/core/build_steps/llvm.rs b/src/bootstrap/src/core/build_steps/llvm.rs
-index 40d701f22..c1ace0c75 100644
+index 86af95653..ec2869b09 100644
 --- a/src/bootstrap/src/core/build_steps/llvm.rs
 +++ b/src/bootstrap/src/core/build_steps/llvm.rs
-@@ -437,25 +437,6 @@ impl Step for Llvm {
+@@ -386,25 +386,6 @@ impl Step for Llvm {
              cfg.define("LLVM_LINK_LLVM_DYLIB", "ON");
          }
  
@@ -75,5 +75,5 @@ index 40d701f22..c1ace0c75 100644
              // LLVM wants 64-bit atomics, while mipsel is 32-bit only, so needs -latomic
              ldflags.exe.push(" -latomic");
 -- 
-2.48.1
+2.49.0
 

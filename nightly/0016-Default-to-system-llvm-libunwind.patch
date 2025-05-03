@@ -1,7 +1,7 @@
-From 17024d0f047a926ddc975264ef6c2bbda441e792 Mon Sep 17 00:00:00 2001
+From e6ad002871881c6fdeb63b1fc656bfdc25a86dfe Mon Sep 17 00:00:00 2001
 From: Jens Reidel <adrian@travitia.xyz>
 Date: Sun, 26 Jan 2025 09:14:51 +0100
-Subject: [PATCH 18/18] Default to system llvm libunwind
+Subject: [PATCH 16/17] Default to system llvm libunwind
 
 Signed-off-by: Jens Reidel <adrian@travitia.xyz>
 ---
@@ -28,5 +28,5 @@ index 5451a38a6..e6a054c02 100644
      }
  }
 -- 
-2.48.1
+2.49.0
 

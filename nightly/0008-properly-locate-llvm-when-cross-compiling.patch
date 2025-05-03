@@ -1,14 +1,14 @@
-From fdc2b0d1b5338d085706bf6dbe30705011fa5cbb Mon Sep 17 00:00:00 2001
+From 202fb101a4b6637ec80c77940636ce03c824e8bf Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Mon, 20 Dec 2021 01:56:48 +0100
-Subject: [PATCH 08/18] properly locate llvm when cross-compiling
+Subject: [PATCH 08/17] properly locate llvm when cross-compiling
 
 ---
  compiler/rustc_llvm/build.rs | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/compiler/rustc_llvm/build.rs b/compiler/rustc_llvm/build.rs
-index 3d1f3b2cd..1064493ab 100644
+index 6692ea735..c2bedb11d 100644
 --- a/compiler/rustc_llvm/build.rs
 +++ b/compiler/rustc_llvm/build.rs
 @@ -333,10 +333,16 @@ fn main() {
@@ -31,5 +31,5 @@ index 3d1f3b2cd..1064493ab 100644
          } else if let Some(stripped) = lib.strip_prefix("-LIBPATH:") {
              println!("cargo:rustc-link-search=native={stripped}");
 -- 
-2.48.1
+2.49.0
 

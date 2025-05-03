@@ -1,18 +1,18 @@
-From 58a5164f23ae7179626f6eb54f71fe3157e8dd32 Mon Sep 17 00:00:00 2001
+From 09c9a240a7333e7e5b9fd1f1cbc303d848e789ea Mon Sep 17 00:00:00 2001
 From: Jens Reidel <adrian@travitia.xyz>
 Date: Sun, 9 Feb 2025 22:58:43 +0100
-Subject: [PATCH 14/18] riscv64-f16
+Subject: [PATCH 14/17] riscv64-f16
 
 source: alpine
 ---
- vendor/compiler_builtins-0.1.151/configure.rs | 1 +
+ vendor/compiler_builtins-0.1.156/configure.rs | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/vendor/compiler_builtins-0.1.151/configure.rs b/vendor/compiler_builtins-0.1.151/configure.rs
-index 931e96629..034ac9a88 100644
---- a/vendor/compiler_builtins-0.1.151/configure.rs
-+++ b/vendor/compiler_builtins-0.1.151/configure.rs
-@@ -79,6 +79,7 @@ pub fn configure_f16_f128(target: &Target) {
+diff --git a/vendor/compiler_builtins-0.1.156/configure.rs b/vendor/compiler_builtins-0.1.156/configure.rs
+index d825f35a9..53ef62d6d 100644
+--- a/vendor/compiler_builtins-0.1.156/configure.rs
++++ b/vendor/compiler_builtins-0.1.156/configure.rs
+@@ -97,6 +97,7 @@ pub fn configure_f16_f128(target: &Target) {
          "csky" => false,
          "hexagon" => false,
          "powerpc" | "powerpc64" => false,
@@ -21,5 +21,5 @@ index 931e96629..034ac9a88 100644
          "wasm32" | "wasm64" => false,
          // Most everything else works as of LLVM 19
 -- 
-2.48.1
+2.49.0
 

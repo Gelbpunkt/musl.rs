@@ -12,6 +12,7 @@ build = 'x86_64-unknown-linux-musl'
 host = [
     'x86_64-unknown-linux-musl',
     'aarch64-unknown-linux-musl',
+    'loongarch64-unknown-linux-musl',
     'powerpc-unknown-linux-musl',
     'powerpc64-unknown-linux-musl',
     'powerpc64le-unknown-linux-musl',
@@ -20,6 +21,7 @@ host = [
 target = [
     'x86_64-unknown-linux-musl',
     'aarch64-unknown-linux-musl',
+    'loongarch64-unknown-linux-musl',
     'powerpc-unknown-linux-musl',
     'powerpc64-unknown-linux-musl',
     'powerpc64le-unknown-linux-musl',
@@ -56,6 +58,8 @@ profiler = true
 
 local-rebuild = false
 
+description = 'musl.rs'
+
 [install]
 prefix = '/usr'
 
@@ -74,7 +78,6 @@ lto = 'thin'
 incremental = false
 
 channel = 'nightly'
-description = 'musl.rs'
 
 rpath = true
 
@@ -83,6 +86,9 @@ frame-pointers = true
 deny-warnings = false
 
 llvm-libunwind = 'system'
+
+# To prevent rustc from packaging rust-lld
+lld = false
 
 [dist]
 vendor = false

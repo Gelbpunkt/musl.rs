@@ -1,7 +1,7 @@
-From 08b2053cc0921fa7448141c623692248e91de7c3 Mon Sep 17 00:00:00 2001
+From 2865ec778dfaab11bea41d6b5ee254b9be8c1e8f Mon Sep 17 00:00:00 2001
 From: q66 <q66@chimera-linux.org>
 Date: Tue, 16 Jul 2024 15:04:38 +0200
-Subject: [PATCH 12/18] linker: when emitting static executables, explicitly
+Subject: [PATCH 12/17] linker: when emitting static executables, explicitly
  hint static
 
 This is important as rustc is not always in charge of what it is
@@ -19,10 +19,10 @@ implicit libs statically as expected.
  1 file changed, 8 insertions(+)
 
 diff --git a/compiler/rustc_codegen_ssa/src/back/linker.rs b/compiler/rustc_codegen_ssa/src/back/linker.rs
-index a8405a2ae..5d5fc9555 100644
+index e1f903726..c304a7ba9 100644
 --- a/compiler/rustc_codegen_ssa/src/back/linker.rs
 +++ b/compiler/rustc_codegen_ssa/src/back/linker.rs
-@@ -525,6 +525,10 @@ impl<'a> Linker for GccLinker<'a> {
+@@ -524,6 +524,10 @@ impl<'a> Linker for GccLinker<'a> {
                  }
              }
              LinkOutputKind::StaticNoPicExe => {
@@ -33,7 +33,7 @@ index a8405a2ae..5d5fc9555 100644
                  // `-static` works for both gcc wrapper and ld.
                  self.link_or_cc_arg("-static");
                  if !self.is_ld && self.is_gnu {
-@@ -532,6 +536,8 @@ impl<'a> Linker for GccLinker<'a> {
+@@ -531,6 +535,8 @@ impl<'a> Linker for GccLinker<'a> {
                  }
              }
              LinkOutputKind::StaticPicExe => {
@@ -42,7 +42,7 @@ index a8405a2ae..5d5fc9555 100644
                  if !self.is_ld {
                      // Note that combination `-static -pie` doesn't work as expected
                      // for the gcc wrapper, `-static` in that case suppresses `-pie`.
-@@ -547,6 +553,8 @@ impl<'a> Linker for GccLinker<'a> {
+@@ -546,6 +552,8 @@ impl<'a> Linker for GccLinker<'a> {
              }
              LinkOutputKind::DynamicDylib => self.build_dylib(crate_type, out_filename),
              LinkOutputKind::StaticDylib => {
@@ -52,5 +52,5 @@ index a8405a2ae..5d5fc9555 100644
                  self.build_dylib(crate_type, out_filename);
              }
 -- 
-2.48.1
+2.49.0
 

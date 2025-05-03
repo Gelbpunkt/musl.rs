@@ -1,0 +1,27 @@
+From 107ef2b3af029f0f90ef3c07a16bafa0f195b50a Mon Sep 17 00:00:00 2001
+From: Jens Reidel <adrian@travitia.xyz>
+Date: Sun, 4 May 2025 21:47:50 +0200
+Subject: [PATCH 17/17] Don't include /usr/include when cross compiling
+
+---
+ compiler/rustc_llvm/build.rs | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/compiler/rustc_llvm/build.rs b/compiler/rustc_llvm/build.rs
+index 768d4418e..607a4ca0f 100644
+--- a/compiler/rustc_llvm/build.rs
++++ b/compiler/rustc_llvm/build.rs
+@@ -182,9 +182,8 @@ fn main() {
+             continue;
+         }
+ 
+-        // Include path contains host directory, replace it with target
++        // Include path is fine as is and adding -I/usr/include messes up cross compiles
+         if is_crossed && flag.starts_with("-I") {
+-            cfg.flag(&flag.replace(&host, &target));
+             continue;
+         }
+ 
+-- 
+2.49.0
+

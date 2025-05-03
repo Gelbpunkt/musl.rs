@@ -54,7 +54,7 @@ RUN cross_arches=($CROSS_ARCHES) && \
         apk --root /usr/$PRETTY-chimera-linux-musl add --allow-untrusted -U --initdb \
             base-files \
             chimerautils \
-            chimera-repo-main && \
+            chimera-repo-main || true && \
         apk --root /usr/$PRETTY-chimera-linux-musl add \
             base-bootstrap \
             libffi-devel \
@@ -65,12 +65,12 @@ RUN cross_arches=($CROSS_ARCHES) && \
             ncurses-devel \
             pkgconf \
             zlib-ng-compat-devel \
-            zstd-devel; \
+            zstd-devel || true; \
     done
 
-RUN ln -s /usr/lib/clang/19/lib/x86_64-chimera-linux-musl /usr/lib/clang/19/lib/x86_64-unknown-linux-musl && \
+RUN ln -s /usr/lib/clang/20/lib/x86_64-chimera-linux-musl /usr/lib/clang/20/lib/x86_64-unknown-linux-musl && \
     for ARCH in $PRETTY_ARCHES; do \
-        ln -s /usr/lib/clang/19/lib/$ARCH-chimera-linux-musl /usr/lib/clang/19/lib/$ARCH-unknown-linux-musl; \
+        ln -s /usr/lib/clang/20/lib/$ARCH-chimera-linux-musl /usr/lib/clang/20/lib/$ARCH-unknown-linux-musl; \
     done
 
 ENV SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt
@@ -82,32 +82,32 @@ ENV PKG_CONFIG_PATH_x86_64_unknown_linux_musl /usr/lib/pkgconfig
 
 ENV PKG_CONFIG_PATH_aarch64_unknown_linux_musl /usr/lib/aarch64-linux-musl/pkgconfig
 ENV CFLAGS_aarch64_unknown_linux_musl "--sysroot=/usr/aarch64-chimera-linux-musl/"
-ENV CXXFLAGS_aarch64_unknown_linux_musl "--sysroot=/usr/aarch64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/aarch64-chimera-linux-musl/usr/include/c++/v1 -I/usr/aarch64-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_aarch64_unknown_linux_musl "--sysroot=/usr/aarch64-chimera-linux-musl/ -nostdinc++ -isystem /usr/aarch64-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/aarch64-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/aarch64-chimera-linux-musl/usr/lib"
 
 ENV PKG_CONFIG_PATH_powerpc_unknown_linux_musl /usr/lib/powerpc-linux-musl/pkgconfig
 ENV CFLAGS_powerpc_unknown_linux_musl "--sysroot=/usr/powerpc-chimera-linux-musl/"
-ENV CXXFLAGS_powerpc_unknown_linux_musl "--sysroot=/usr/powerpc-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/powerpc-chimera-linux-musl/usr/include/c++/v1 -I/usr/powerpc-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_powerpc_unknown_linux_musl "--sysroot=/usr/powerpc-chimera-linux-musl/ -nostdinc++ -isystem /usr/powerpc-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/powerpc-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_POWERPC_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/powerpc-chimera-linux-musl/usr/lib"
 
 ENV PKG_CONFIG_PATH_powerpc64_unknown_linux_musl /usr/lib/powerpc64-linux-musl/pkgconfig
 ENV CFLAGS_powerpc64_unknown_linux_musl "--sysroot=/usr/powerpc64-chimera-linux-musl/"
-ENV CXXFLAGS_powerpc64_unknown_linux_musl "--sysroot=/usr/powerpc64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/powerpc64-chimera-linux-musl/usr/include/c++/v1 -I/usr/powerpc64-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_powerpc64_unknown_linux_musl "--sysroot=/usr/powerpc64-chimera-linux-musl/ -nostdinc++ -isystem /usr/powerpc64-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/powerpc64-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_POWERPC64_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/powerpc64-chimera-linux-musl/usr/lib"
 
 ENV PKG_CONFIG_PATH_powerpc64le_unknown_linux_musl /usr/lib/powerpc64le-linux-musl/pkgconfig
 ENV CFLAGS_powerpc64le_unknown_linux_musl "--sysroot=/usr/powerpc64le-chimera-linux-musl/"
-ENV CXXFLAGS_powerpc64le_unknown_linux_musl "--sysroot=/usr/powerpc64le-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/powerpc64le-chimera-linux-musl/usr/include/c++/v1 -I/usr/powerpc64le-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_powerpc64le_unknown_linux_musl "--sysroot=/usr/powerpc64le-chimera-linux-musl/ -nostdinc++ -isystem /usr/powerpc64le-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/powerpc64le-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_POWERPC64LE_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/powerpc64le-chimera-linux-musl/usr/lib"
 
 ENV PKG_CONFIG_PATH_riscv64gc_unknown_linux_musl /usr/lib/riscv64-linux-musl/pkgconfig
 ENV CFLAGS_riscv64gc_unknown_linux_musl "--sysroot=/usr/riscv64-chimera-linux-musl/"
-ENV CXXFLAGS_riscv64gc_unknown_linux_musl "--sysroot=/usr/riscv64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/riscv64-chimera-linux-musl/usr/include/c++/v1 -I/usr/riscv64-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_riscv64gc_unknown_linux_musl "--sysroot=/usr/riscv64-chimera-linux-musl/ -nostdinc++ -isystem /usr/riscv64-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/riscv64-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_RISCV64GC_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/riscv64-chimera-linux-musl/usr/lib"
 
 ENV PKG_CONFIG_PATH_loongarch64_unknown_linux_musl /usr/lib/loongarch64-linux-musl/pkgconfig
 ENV CFLAGS_loongarch64_unknown_linux_musl "--sysroot=/usr/loongarch64-chimera-linux-musl/"
-ENV CXXFLAGS_loongarch64_unknown_linux_musl "--sysroot=/usr/loongarch64-chimera-linux-musl/ -nostdinc++ -nobuiltininc -nostdinc -I/usr/loongarch64-chimera-linux-musl/usr/include/c++/v1 -I/usr/loongarch64-chimera-linux-musl/usr/include/"
+ENV CXXFLAGS_loongarch64_unknown_linux_musl "--sysroot=/usr/loongarch64-chimera-linux-musl/ -nostdinc++ -isystem /usr/loongarch64-chimera-linux-musl/usr/include/c++/v1 -isystem /usr/loongarch64-chimera-linux-musl/usr/include/"
 ENV CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_MUSL_RUSTFLAGS "-Lnative=/usr/loongarch64-chimera-linux-musl/usr/lib"
 
 WORKDIR /src
