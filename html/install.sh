@@ -15,6 +15,11 @@ OUT_DIR=$(mktemp -d)
 
 echo "Downloading for architecture $ARCH"
 
+download_fetch() {
+	fetch https://dl.musl.rs/nightly/rust-nightly-$ARCH-unknown-linux-musl.tar.xz -o $OUT_DIR/rust.tar.xz
+	fetch https://dl.musl.rs/nightly/rust-src-nightly.tar.xz -o $OUT_DIR/rust-src.tar.xz
+}
+
 download_wget() {
 	wget https://dl.musl.rs/nightly/rust-nightly-$ARCH-unknown-linux-musl.tar.xz -O $OUT_DIR/rust.tar.xz
 	wget https://dl.musl.rs/nightly/rust-src-nightly.tar.xz -O $OUT_DIR/rust-src.tar.xz
@@ -25,7 +30,9 @@ download_curl() {
 	curl https://dl.musl.rs/nightly/rust-src-nightly.tar.xz -o $OUT_DIR/rust-src.tar.xz
 }
 
-if command -v wget >/dev/null 2>&1; then
+if command -v fetch >/dev/null 2>&1; then
+	download_fetch
+elif command -v wget >/dev/null 2>&1; then
 	download_wget
 elif command -v curl >/dev/null 2>&1; then
 	download_curl
